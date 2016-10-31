@@ -1,0 +1,23 @@
+{
+  "name" : "nia/nia-porter",
+  "description" : "The nia porter gives you the ability to port the nia framework components from PHP 7.0 to PHP 5.6.",
+  "require" : {
+    "php" : ">=5.6.0"
+  },
+  "license" : "MIT",
+  "keywords" : [ "nia", "port", "porting", "downgrade", "downgrading", "php", "7.0", "5.6", "framework" ],
+  "minimum-stability" : "dev",
+  "autoload" : {
+    "psr-4" : {
+      "NiaPorter\\" : "sources/",
+      "Test\\NiaPorter\\" : "tests/"
+    }
+  },
+  "type" : "application",
+  "homepage" : "http://www.nat-software.de",
+  "authors" : [ {
+    "name" : "Patrick Ullmann",
+    "email" : "patrick.ullmann@nat-software.de",
+    "role" : "lead"
+  } ]
+}

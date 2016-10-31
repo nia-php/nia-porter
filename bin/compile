@@ -1,0 +1,36 @@
+#!/usr/bin/php
+<?php
+/*
+ * This file is part of the nia porter.
+ *
+ * (c) Patrick Ullmann <patrick.ullmann@nat-software.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$files = new AppendIterator();
+$files->append(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__ . '/../sources', FilesystemIterator::SKIP_DOTS)));
+$files->append(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(__DIR__ . '/../vendor', FilesystemIterator::SKIP_DOTS)));
+
+$file = 'nia-porter';
+$pharFile = $file.'.phar';
+
+$stub = <<<EOL
+#!/usr/bin/php
+<?php
+
+Phar::mapPhar();
+require_once 'phar://$pharFile/sources/Application.php';
+
+__HALT_COMPILER();
+EOL;
+
+$phar = new Phar($pharFile, FilesystemIterator::CURRENT_AS_FILEINFO | FilesystemIterator::KEY_AS_FILENAME, $pharFile);
+$phar->startBuffering();
+#$phar->setStub($phar->createDefaultStub('sources/Application.php'));
+$phar->setStub($stub);
+$phar->buildFromIterator($files, __DIR__ . '/../');
+$phar->stopBuffering();
+
+rename($pharFile, $file);
